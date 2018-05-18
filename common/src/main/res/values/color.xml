@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="main_color">#f76114</color>
+    <!--透明度 -->
+    <color name="transparent75">#3F000000</color>
+    <color name="transparent80">#33000000</color>
+    <color name="transparent85">#21000000</color>
+    <color name="transparent70">#4c000000</color>
+    <color name="transparent65">#59000000</color>
+    <color name="transparent60">#66000000</color>
+    <color name="transparent55">#72000000</color>
+    <color name="transparent50">#7f000000</color>
+    <color name="transparent30">#26000000</color>
+    <color name="transparent_all">#00000000</color>
+    <color name="background_tab_pressed">#66ffa200</color>
+    <color name="main_color_098dbe">#F76114</color>
+    <color name="white_trans_50">#55000000</color>
+    <color name="title_color">#3CCC87</color>
+    <color name="voice_color">#0E71AA</color>
+</resources>

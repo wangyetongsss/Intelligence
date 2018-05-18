@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- title bar -->
+    <declare-styleable name="titleBar">
+        <attr name="title_content" format="string" />
+        <attr name="title_fontcolor" format="color" />
+        <attr name="title_right_tv_content" format="string" />
+        <attr name="title_right_tv_fontcolor" format="color" />
+        <attr name="title_tv_fontsize" format="dimension" />
+        <attr name="title_right_tv_fontsize" format="dimension" />
+        <attr name="title_right_tv_visible" format="string" />
+        <attr name="title_left_iv_visible" format="string" />
+    </declare-styleable>
+
+    <style name="large_white_text_style">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <!--滑动解锁-->
+    <declare-styleable name="SlideLockView">
+        <attr name="lock_drawable" format="reference" />
+        <attr name="lock_radius" format="dimension|reference" />
+        <attr name="lock_tips_tx" format="string|reference" />
+        <attr name="locl_tips_tx_size" format="dimension|reference" />
+        <attr name="lock_tips_tx_color" format="color|reference" />
+    </declare-styleable>
+    <!-- 水平条-->
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="pstsIndicatorColor" format="color" />
+        <attr name="pstsUnderlineColor" format="color" />
+        <attr name="pstsDividerColor" format="color" />
+        <attr name="pstsIndicatorHeight" format="dimension" />
+        <attr name="pstsUnderlineHeight" format="dimension" />
+        <attr name="pstsDividerPadding" format="dimension" />
+        <attr name="pstsTabPaddingLeftRight" format="dimension" />
+        <attr name="pstsScrollOffset" format="dimension" />
+        <attr name="pstsTabBackground" format="reference" />
+        <attr name="pstsShouldExpand" format="boolean" />
+        <attr name="pstsTextAllCaps" format="boolean" />
+        <attr name="selectedTabTextColor" format="color" />
+        <attr name="selectedTabBackground1" format="reference" />
+        <attr name="selectedTabBackground2" format="reference" />
+        <attr name="selectedTabBackground3" format="reference" />
+        <attr name="pstsDividerWidth" format="dimension" />
+    </declare-styleable>
+</resources>
