@@ -34,11 +34,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile 'com.zhy:okhttputils:+'
+    compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.google.code.gson:gson:2.6.2'
 //    compile 'com.alibaba:arouter-api:1.2.1'
 //    annotationProcessor 'com.alibaba:arouter-compiler:1.1.2'
+    compile 'com.nightonke:boommenu:2.1.1'
     implementation project(':common')
     implementation files('libs/Msc.jar')
     implementation files('libs/Sunflower.jar')

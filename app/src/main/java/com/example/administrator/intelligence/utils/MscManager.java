@@ -1,6 +1,7 @@
 package com.example.administrator.intelligence.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.administrator.intelligence.bean.DictationResult;
+import com.example.administrator.intelligence.bean.EventsID;
+import com.example.administrator.intelligence.bean.ViewEvent;
 import com.example.common.common.view.VoiceDistinguishDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +24,8 @@ import com.iflytek.cloud.SpeechEvent;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SynthesizerListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Random;
@@ -164,6 +169,12 @@ public class MscManager {
             //显示自定义的dialog
             voice_Dialog = new VoiceDistinguishDialog(mContext);
             voice_Dialog.show();
+            voice_Dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    EventBus.getDefault().post(new ViewEvent(EventsID.GONE_CHAT_BOOTM));
+                }
+            });
         }
 
         @Override
@@ -238,6 +249,18 @@ public class MscManager {
             }
         }
     };
+
+    /**
+     * 返回对应的弹窗
+     *
+     * @return
+     */
+    public VoiceDistinguishDialog getVoice_Dialog() {
+        if (voice_Dialog != null) {
+            return voice_Dialog;
+        }
+        return null;
+    }
 
     /**
      * 对外开放监听语音内容

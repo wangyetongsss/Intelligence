@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">托尼.斯塔克</string>
+    <string name="app_name">托尼斯塔克</string>
     <string name="your_welcome">欢迎</string>
     <string name="app_id">=5afbe3da</string>
     <string name="default_welcome">我是猪肉荣，终于等到你了!</string>
@@ -8,4 +8,5 @@
     <string name="voice_play_content">是否需要语音播报呢( ^_^ )?</string>
     <string name="no_need">不需要</string>
     <string name="str_need">需要</string>
+    <string name="selector_date">选择日期</string>
 </resources>

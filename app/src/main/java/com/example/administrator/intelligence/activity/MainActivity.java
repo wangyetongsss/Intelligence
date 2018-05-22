@@ -2,7 +2,7 @@ package com.example.administrator.intelligence.activity;
 
 import android.Manifest;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,22 +21,25 @@ import com.example.administrator.intelligence.R;
 import com.example.administrator.intelligence.adapter.ChatMessageAdapter;
 import com.example.administrator.intelligence.bean.ChatMessage;
 import com.example.administrator.intelligence.bean.ChatMessage.Type;
+import com.example.administrator.intelligence.bean.EventsID;
+import com.example.administrator.intelligence.bean.ViewEvent;
 import com.example.administrator.intelligence.utils.Config;
 import com.example.administrator.intelligence.utils.HttpUtils;
 import com.example.administrator.intelligence.utils.MscManager;
 import com.example.common.common.base.BaseActivity;
-import com.example.common.common.utils.Logger;
 import com.example.common.common.utils.PermissionsUtils;
 import com.example.common.common.view.SharedPreferencesUtils;
-import com.flyco.animation.BounceEnter.BounceTopEnter;
 import com.flyco.animation.FlipEnter.FlipTopEnter;
 import com.flyco.animation.FlipExit.FlipHorizontalExit;
-import com.flyco.animation.FlipExit.FlipVerticalExit;
-import com.flyco.animation.SlideEnter.SlideTopEnter;
-import com.flyco.animation.SlideExit.SlideBottomExit;
 import com.flyco.dialog.listener.OnBtnClickL;
-import com.flyco.dialog.utils.CornerUtils;
 import com.flyco.dialog.widget.MaterialDialog;
+import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
+import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
+import com.nightonke.boommenu.BoomMenuButton;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +67,10 @@ public class MainActivity extends BaseActivity {
      * 头部姓名栏
      */
     private RelativeLayout ly_chat_title;
+    /**
+     * Bob菜单
+     */
+    private BoomMenuButton bmb_menu;
     /**
      * 存储聊天消息
      */
@@ -109,6 +116,7 @@ public class MainActivity extends BaseActivity {
         mPermissionsUtils = new PermissionsUtils(this)
                 .setResultCallBack(this);
         this.setIsTitleBar(false);
+        EventBus.getDefault().register(this);
         initListener();
     }
 
@@ -118,6 +126,7 @@ public class MainActivity extends BaseActivity {
         mChatView = findViewById(R.id.id_chat_listView);
         ly_chat_title = findViewById(R.id.ly_chat_title);
         mMsg = findViewById(R.id.id_chat_msg);
+        bmb_menu = findViewById(R.id.bmb_menu);
         //判断用户上一次操作的内容是否存在本地
         if (TextUtils.isEmpty(SharedPreferencesUtils.getString(MainActivity.this, Config.FINAL_RESULT, ""))) {
             mDatas.add(new ChatMessage(ChatMessage.Type.INPUT, getString(R.string.default_welcome)));
@@ -126,7 +135,69 @@ public class MainActivity extends BaseActivity {
         }
         createNumber(1, 100);
         autoScrollView(chat_rl, ly_chat_bottom);//弹出软键盘时滚动视图
+        for (int i = 0; i < bmb_menu.getPiecePlaceEnum().pieceNumber(); i++) {
+            TextOutsideCircleButton.Builder builder = new TextOutsideCircleButton.Builder()
+                    .listener(new OnBMClickListener() {
+                        @Override
+                        public void onBoomButtonClick(int index) {
+                            //点击进入响应界面
+                            if (index == 0) {
+                                // TODO: 2018/5/18 拼图
+                                Intent start_Beauty = new Intent(MainActivity.this, BeautyActivity.class);
+                                startActivity(start_Beauty);
+                            } else if (index == 1) {
+                                // TODO: 2018/5/22 dribbble数据展示
+                                Intent start_Beauty = new Intent(MainActivity.this,DribbbleActivity.class);
+                                startActivity(start_Beauty);
+                            } else if (index == 2) {
+
+                            } else if (index == 3) {
+
+                            } else if (index == 4) {
+
+                            } else if (index == 5) {
+
+                            } else if (index == 6) {
+
+                            }
+                        }
+                    })
+                    .normalImageRes(getImageResource())
+                    .normalText(getext());
+            bmb_menu.addBuilder(builder);
+        }
+        VoiceListener();
     }
+
+    private static int index = 0;
+
+    static String getext() {
+        if (index >= text.length) {
+            index = 0;
+        }
+        return text[index++];
+
+    }
+
+    private static String[] text = new String[]{"拼图游戏", "待开发", "待开发", "待开发", "待开发", "待开发", "待开发"};
+    private static int imageResourceIndex = 0;
+
+    static int getImageResource() {
+        if (imageResourceIndex >= imageResources.length) {
+            imageResourceIndex = 0;
+        }
+        return imageResources[imageResourceIndex++];
+    }
+
+    private static int[] imageResources = new int[]{
+            R.mipmap.dolphin,
+            R.mipmap.owl,
+            R.mipmap.deer,
+            R.mipmap.butterfly,
+            R.mipmap.bee,
+            R.mipmap.bear,
+            R.mipmap.eagle
+    };
 
     /**
      * 初始化语言弹窗监听事件
@@ -212,6 +283,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 创建随机数值
+     * 生成随机背景图
      */
     private void createNumber(int min, int max) {
         Random random = new Random();
@@ -247,6 +319,29 @@ public class MainActivity extends BaseActivity {
             VoiceDialog();
         } else {
             mPermissionsUtils.requestRuntimePermissions(permission);
+        }
+    }
+
+    /**
+     * 添加实时监听功能
+     */
+    public void VoiceListener() {
+        if (authorizeRuntimePermission()) {
+            MscManager.getInstance().voiceDistinguish("iat", "zh_cn", "mandarin");
+            MscManager.getInstance().getVoiceDistinguish(new MscManager.VoiceDistinguishListener() {
+                @Override
+                public void VoiceDistinguish(String result) {
+                    if (result.equals("拼图游戏")) {
+                        Intent start_Beauty = new Intent(MainActivity.this, BeautyActivity.class);
+                        startActivity(start_Beauty);
+                    }
+                }
+
+                @Override
+                public void VoiceErrorListener(String result) {
+
+                }
+            });
         }
     }
 
@@ -336,9 +431,17 @@ public class MainActivity extends BaseActivity {
         }.start();
     }
 
+    //EventBus 回调接口
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true) //在ui线程执
+    public void onEventMainThread(ViewEvent events) {
+        if (events.getEvent() == EventsID.GONE_CHAT_BOOTM) {
+            ly_chat_bottom.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

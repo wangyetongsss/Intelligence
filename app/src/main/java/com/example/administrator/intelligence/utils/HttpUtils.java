@@ -1,5 +1,7 @@
 package com.example.administrator.intelligence.utils;
 
+import android.text.TextUtils;
+
 import com.example.administrator.intelligence.bean.ChatMessage;
 import com.example.administrator.intelligence.bean.Result;
 import com.example.administrator.intelligence.bean.ChatMessage.Type;
@@ -39,7 +41,9 @@ public class HttpUtils {
         }
         message.setType(Type.INPUT);
         message.setDate(new Date());
-
+        if (!TextUtils.isEmpty(result.getUrl())) {
+            message.setUrl(result.getUrl().trim());
+        }
         return message;
     }
 

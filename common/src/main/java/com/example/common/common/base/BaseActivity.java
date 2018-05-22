@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,7 +36,10 @@ public class BaseActivity extends Activity implements PermissionsUtils.IResultCa
     private String TAG = "BaseActivity";
     private boolean isTitleBar = true;
     private boolean canSystemBarTransparent = true;
-
+    /**
+     * 记录当前最顶部的Activity
+     */
+    private static BaseActivity sTopActivity = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -46,7 +50,14 @@ public class BaseActivity extends Activity implements PermissionsUtils.IResultCa
         AppManager.addActiviy(this);
         activity = this;
         x.view().inject(this);// 注册xutils3注解
+        sTopActivity = this; // 确保最新一个Activity创建后，TopActivity立马指向它，此时一些操作可以在onCreate函数执行
         Log.e("测试", "" + this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sTopActivity = this; // 确保上一个Activity销毁后，TopActivity指到最上一个Activity
     }
 
     /**
@@ -57,6 +68,12 @@ public class BaseActivity extends Activity implements PermissionsUtils.IResultCa
     protected void appStartActivity(Class<?> pClass) {
         Intent intent = new Intent(this, pClass);
         startActivity(intent);
+    }
+    /**
+     * 获取顶部的Activity
+     */
+    public static BaseActivity getTopActivity() {
+        return sTopActivity;
     }
 
     /**
@@ -117,7 +134,13 @@ public class BaseActivity extends Activity implements PermissionsUtils.IResultCa
         }
         return true;
     }
-
+    public static Handler getUIHandler() {
+        Handler handler = sTopActivity.getWindow().getDecorView().getHandler();
+        if (handler == null) {
+            handler = new Handler();
+        }
+        return handler;
+    }
     /**
      * 根据包名启动应用
      *

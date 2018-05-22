@@ -26,6 +26,10 @@ public class ChatMessage {
      * 发送人
      */
     private String name;
+    /**
+     * 图片地址
+     */
+    private String url;
 
     public enum Type {
         INPUT, OUTPUT
@@ -80,4 +84,11 @@ public class ChatMessage {
         this.msg = msg;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

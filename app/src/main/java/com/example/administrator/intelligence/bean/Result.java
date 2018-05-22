@@ -4,6 +4,7 @@ public class Result
 {
 	private int code;
 	private String text;
+	private String url;
 
 	public Result()
 	{
@@ -40,6 +41,11 @@ public class Result
 		this.text = text;
 	}
 
-	
+	public String getUrl() {
+		return url;
+	}
 
+	public void setUrl(String url) {
+		this.url = url;
+	}
 }
