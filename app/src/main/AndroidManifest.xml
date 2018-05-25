@@ -47,7 +47,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.BeautyActivity" />
-        <activity android:name=".activity.DribbbleActivity"></activity>
+        <activity
+            android:name=".activity.DribbbleActivity"></activity>
     </application>
 
 </manifest>
